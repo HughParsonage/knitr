@@ -101,7 +101,6 @@ Imports:
     evaluate (>= 0.10),
     highr,
     markdown,
-    stringr (>= 0.6),
     yaml,
     methods,
     tools
@@ -125,7 +124,8 @@ Suggests:
     httr,
     DBI (>= 0.4-1),
     showtext,
-    tibble
+    tibble,
+    stringi
 License: GPL
 URL: https://yihui.name/knitr/
 BugReports: https://github.com/yihui/knitr/issues
@@ -162,6 +162,7 @@ Collate:
     'pattern.R'
     'rocco.R'
     'spin.R'
+    'stringr_suggestions.R'
     'table.R'
     'template.R'
     'utils-base64.R'
