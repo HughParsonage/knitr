@@ -101,6 +101,7 @@ Imports:
     evaluate (>= 0.10),
     highr,
     markdown,
+    stringr,
     yaml,
     methods,
     tools
