@@ -439,21 +439,21 @@ inline_exec = function(
     if (inherits(res, 'knit_asis')) res = wrap(res, inline = TRUE)
     d = nchar(input)
     # replace with evaluated results
-    # input <-
-    #   stringr__str_sub_assign(string = input,
-    #                           start = loc[i, 1],
-    #                           end = loc[i, 2],
-                              # value = if (length(res)) {
-                              #   paste(hook(res), collapse = '')
-                              # } else {
-                              #   ''
-                              # })
-    stringr::str_sub(input, loc[i, 1], loc[i, 2]) <-
-      if (length(res)) {
-        paste(hook(res), collapse = '')
-      } else {
-        ''
-      }
+    input <-
+      stringr__str_sub_assign(string = input,
+                              start = loc[i, 1],
+                              end = loc[i, 2],
+                              value = if (length(res)) {
+                                paste(hook(res), collapse = '')
+                              } else {
+                                ''
+                              })
+    # stringr::str_sub(input, loc[i, 1], loc[i, 2]) <-
+    #   if (length(res)) {
+    #     paste(hook(res), collapse = '')
+    #   } else {
+    #     ''
+    #   }
     if (i < n) loc[(i + 1):n, ] = loc[(i + 1):n, ] - (d - nchar(input))
     # may need to move back and forth because replacement may be longer or shorter
   }

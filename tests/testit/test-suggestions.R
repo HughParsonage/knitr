@@ -16,6 +16,13 @@ if (requireNamespace("stringr", quietly = TRUE)) {
   test_stringr_sub_assign <- function(string, start, stop, value,
                                       verbose = getOption("_test_stringr_verbose_", FALSE)) {
     # avoid race condition: string will be modified in-place
+
+    if (verbose) {
+      stringA <- stringB <- string
+      stringr::str_sub(stringA, start, stop) <- value
+      stringB <- stringr__str_sub_assign(stringB, start, stop, value = value)
+      cat("\n", stringA, "\n", stringB, "\n\n")
+    }
     stringA <- stringB <- string
     assert(paste("Test conformance with stringr", string, start, stop, value),
            identical({
@@ -25,17 +32,14 @@ if (requireNamespace("stringr", quietly = TRUE)) {
            {
              stringr__str_sub_assign(stringB, start, stop, value = value)
            }))
-    if (verbose) {
-      stringA <- stringB <- string
-      stringr::str_sub(stringA, start, stop) <- value
-      stringB <- stringr__str_sub_assign(stringB, start, stop, value = value)
-      cat("\n", stringA, "\n", stringB, "\n\n")
-    }
+
 
   }
 
 
+  test_stringr_sub_assign(a, 0, 0, "x")
   test_stringr_sub_assign(a, 3, 3, "x")
+  test_stringr_sub_assign(a, 26, 26, "x")
   test_stringr_sub_assign(a, 3, 6, "x")
   test_stringr_sub_assign(a, 3, -3, "x")
   test_stringr_sub_assign(a, 3, 3, "XY")
@@ -50,6 +54,18 @@ if (requireNamespace("stringr", quietly = TRUE)) {
   test_stringr_sub_assign(a, 0, 0, "x")
   test_stringr_sub_assign(a, 0, 2, "x")
   test_stringr_sub_assign(a, 0, -3, "x")
+
+  test_stringr_sub_assign("# Regression on {{i}}\n```{r lm-{{i}}}\nlm(mpg~{{i}}, data=mtcars)",
+                          17,
+                          21,
+                          value = "gear")
+
+  test_stringr_sub_assign("()()()!",
+                          5,
+                          6,
+                          value = "!%")
+
+
 
 
 } else {

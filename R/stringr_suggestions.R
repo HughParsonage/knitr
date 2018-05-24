@@ -83,21 +83,21 @@ stringr__str_sub_assign <- function (string, start = 1L, end = -1L, omit_na = FA
 
   # stringr::str_sub<- differs from substr()<-
   # when the nchar(replacement) of the substr
-  if (nchar(value) == TO - FROM) {
-    substr(out, FROM, TO) <- value
-  } else {
-    # y <- "abc"
-    # z <- "xyz"
-    # stringr::str_sub(y, 2, 2) <- z
-    # y
-    # => "axyzc"
 
-    out_split <- strsplit(out, split = "")[[1L]]
-    out <- paste00(c(if (FROM > 1) paste00(out_split[seq_len(FROM - 1L)]),
-                    value,
-                    if (length(out_split) - TO > 1) paste00(out_split[seq.int(TO + 1L, length(out_split))])))
+  # y <- "abc"
+  # z <- "xyz"
+  # stringr::str_sub(y, 2, 2) <- z
+  # y
+  # => "axyzc"
 
-  }
+  out_split <- strsplit(out, split = "")[[1L]]
+  out <- paste00(c(if (FROM > 1) paste00(out_split[seq_len(FROM - 1L)]),
+                   value,
+                   if (length(out_split) - TO >= 1) {
+                     paste00(out_split[seq.int(TO + 1L, length(out_split))])
+                   }))
+
+
 
 
   out
