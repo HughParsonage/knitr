@@ -60,10 +60,11 @@ if (requireNamespace("stringr", quietly = TRUE)) {
                           21,
                           value = "gear")
 
-  test_stringr_sub_assign("()()()!",
-                          5,
-                          6,
-                          value = "!%")
+  test_stringr_sub_assign("()()()!", 5, 6, value = "!%")
+
+  test_stringr_sub_assign("()()()!", 5, 6, value = "")
+  test_stringr_sub_assign("()()()!", 7, 7, value = "")
+  test_stringr_sub_assign("()()()!", 8, 8, value = "")
 
 
 
