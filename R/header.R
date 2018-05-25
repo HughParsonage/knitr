@@ -67,10 +67,12 @@ make_header_html = function() {
 insert_header_html = function(doc, b) {
   i = grep(b, doc)
   if (length(i) == 1L) {
-    l = stringr::str_locate(doc[i], b)
-    tmp = stringr::str_sub(doc[i], l[, 1], l[, 2])
-    stringr::str_sub(doc[i], l[,1], l[,2]) = paste0(tmp, '\n', make_header_html())
-    # doc[i] <- stringr__str_sub_assign(doc[i], l[,1], l[,2], value = paste0(tmp, '\n', make_header_html()))
+    doc[i] <- gsub(b, paste0(b, "\n", make_header_html()), doc[i])
+
+    # l = stringr::str_locate(doc[i], b)
+    # tmp = stringr::str_sub(doc[i], l[, 1], l[, 2])
+    # stringr::str_sub(doc[i], l[,1], l[,2]) = paste0(tmp, '\n', make_header_html())
+    # # doc[i] <- stringr__str_sub_assign(doc[i], l[,1], l[,2], value = paste0(tmp, '\n', make_header_html()))
   }
   doc
 }

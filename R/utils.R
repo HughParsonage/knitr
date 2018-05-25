@@ -991,3 +991,9 @@ digest3 = function(x) {
   close(s)
   unname(tools::md5sum(f))
 }
+
+use_stringr <- function() {
+  getOption("knitr.use.stringr", TRUE) &&
+    requireNamespace("stringr", quietly = TRUE)
+}
+
