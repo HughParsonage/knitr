@@ -74,7 +74,7 @@ color_def = function(col, variable = 'shadecolor') {
 sc_split = function(string) {
   if (is.call(string)) string = eval(string)
   if (is.numeric(string) || length(string) != 1L) return(string)
-  stringr::str_trim(stringr::str_split(string, ';|,')[[1]])
+  trimws(strsplit(string, ';|,')[[1]])
 }
 
 # extract LaTeX packages for tikzDevice
@@ -526,8 +526,21 @@ print_knitlog = function() {
   print(sapply(klog, length))
 }
 
+
+
 # count the number of lines
-line_count = function(x) stringr::str_count(x, '\n') + 1L
+line_count = function(x, use_stringi = TRUE) {
+  if (use_stringi && requireNamespace("stringi", quietly = TRUE)) {
+    stringi::stri_count_regex(x, '\n') + 1L
+  } else {
+    g <- gregexpr(pattern = "\n", text = x, fixed = TRUE)
+    n_matches <- function(y) {
+      ml <- attr(y, "match.length")
+      if (ml == -1L) 0L else length(ml)
+    }
+    vapply(g, n_matches, 0L) + 1L
+  }
+}
 
 # TODO: use xfun::loadable(pkg, FALSE)
 has_package = function(pkg) pkg %in% .packages(TRUE)
