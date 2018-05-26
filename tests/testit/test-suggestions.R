@@ -67,11 +67,25 @@ if (requireNamespace("stringr", quietly = TRUE)) {
   test_stringr_sub_assign("()()()!", 8, 8, value = "")
 
 
-
-
 } else {
   assert("(stringr conformance not tested)", TRUE, TRUE)
 }
+
+
+if (requireNamespace("stringr", quietly = TRUE)) {
+  string  = c("sdfoihsdfoi", "read_chunk('salve');(read_chunk('read_chunk')))", "read_chunk()")
+  pattern = "read_chunk\\(([^)]+)\\)"
+  assert("read chunks extracted without stringr",
+         identical(stringr__str_extract_all(string = string, pattern = pattern, .use_stringr = FALSE),
+                   stringr::str_extract_all(string = string, pattern = pattern)))
+}
+
+
+
+
+
+
+
 
 
 

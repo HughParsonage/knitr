@@ -2,6 +2,15 @@
 
 paste00 <- function(...) paste0(..., collapse = "")
 
+use_stringr <- function() {
+  if (identical(Sys.getenv("KNITR_USE_STRINGR"), "FALSE")) {
+    return(FALSE)
+  } else {
+    getOption("knitr.use.stringr", FALSE) &&
+      requireNamespace("stringr", quietly = TRUE)
+  }
+}
+
 stri_sub_no_stringi <- function(str, from, to) {
   out <- str
   nchar_out <- nchar(out) + 1L
