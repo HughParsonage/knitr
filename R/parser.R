@@ -34,7 +34,7 @@ split_file = function(lines, set.preamble = TRUE, patterns = knit_patterns$get()
       # remove the optional prefix % in code in Rtex mode
       g = strip_block(g, patterns$chunk.code)
       params.src = if (group_pattern(chunk.begin)) {
-        stringr::str_trim(gsub(chunk.begin, '\\1', g[1]))
+        trimws(gsub(chunk.begin, '\\1', g[1]))
       } else ''
       parse_block(g[-1], g[1], params.src)
     } else parse_inline(g, patterns)
