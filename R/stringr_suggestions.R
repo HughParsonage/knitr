@@ -104,10 +104,6 @@ stringr__str_sub_assign <- function (string, start = 1L, end = -1L, omit_na = FA
 }
 
 
-#' @param ss A set of strings (i.e. a vector of words)
-#' @param width,indent,exdent as in str_wrap
-#' @return A vector of wrapped strings
-#' @noRd
 .wrapper <- function(ss, width) {
   # + 1 for spaces
   sswidths <- cumsum(nchar(ss) + 1L)
@@ -167,7 +163,7 @@ stri_locate_all_regex_no_stri <- function(str, pattern) {
       } else {
         out <- matrix(NA_integer_, nrow = 1L, ncol = 2L)
       }
-      setattr(out, "dimnames", value = list(NULL, c("start", "end")))
+      attributes(out) <- list("dimnames" = list(NULL, c("start", "end")))
       out
     })
   ans

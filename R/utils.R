@@ -993,7 +993,7 @@ digest3 = function(x) {
 }
 
 use_stringr <- function() {
-  getOption("knitr.use.stringr", TRUE) &&
+  getOption("knitr.use.stringr", FALSE) &&
     requireNamespace("stringr", quietly = TRUE)
 }
 

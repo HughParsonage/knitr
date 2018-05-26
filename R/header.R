@@ -38,9 +38,19 @@ insert_header_latex = function(doc, b) {
       doc[j] = sub(p, '\n\\\\IfFileExists{upquote.sty}{\\\\usepackage{upquote}}{}\n\\2', doc[j])
     }
     i = i[1L]
-    l = stringr::str_locate(doc[i], b)
-    tmp = stringr__str_sub(doc[i], l[, 1], l[, 2])
-    doc[i] <- stringr__str_sub_assign(doc[i], l[,1], l[,2], value = paste0(tmp, make_header_latex()))
+
+
+    if (use_stringr()) {
+      l = stringr::str_locate(doc[i], b)
+      tmp = stringr__str_sub(doc[i], l[, 1], l[, 2])
+      doc[i] <- stringr__str_sub_assign(doc[i], l[,1], l[,2], value = paste0(tmp, make_header_latex()))
+    } else {
+      doci <- regmatches(doc[i], regexpr(b, doc[i]), invert = TRUE)[[1L]]
+      doc[i] <- paste0(c(doci[1],
+                         c("\n", make_header_latex()),
+                         doci[2]),
+                       collapse = "\n")
+    }
   } else if (parent_mode() && !child_mode()) {
     # in parent mode, we fill doc to be a complete document
     doc[1L] = paste(c(getOption('tikzDocumentDeclaration'), make_header_latex(),
