@@ -23,6 +23,7 @@ before_install:
   - "curl https://xran.yihui.name/.gitconfig -o ~/.gitconfig"
   - Rscript -e 'update.packages(.libPaths()[1], ask = FALSE)'
   - Rscript -e "if (!require('covr')) install.packages('covr')"
+  - Rscript -e 'cat(Sys.getenv("KNITR_USE_STRINGR"), "\n")'
 
 addons:
   apt:
