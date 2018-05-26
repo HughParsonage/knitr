@@ -169,6 +169,31 @@ stri_locate_all_regex_no_stri <- function(str, pattern) {
   ans
 }
 
+stringr__str_extract_all <- function(string, pattern, simplify = FALSE, .use_stringr = TRUE) {
+  if (.use_stringr && use_stringr()) {
+    stringr::str_extract_all(string, pattern, simplify)
+  } else {
+    G <- gregexpr(pattern = pattern, text = string)
+    lapply(seq_along(string),
+           function(i) {
+             s <- string[i]
+             if (!grepl(pattern, s)) {
+               character(0L)
+             } else {
+               g <- G[[i]]
+               mlens <- attr(g, "match.length")
+               n <- length(g)
+               out <- character(n)
+               for (j in seq_along(out)) {
+                 out[j] <- substr(s, g[j], g[j] + mlens[j] - 1L)
+               }
+               out
+             }
+           })
+  }
+}
+
+
 
 
 
