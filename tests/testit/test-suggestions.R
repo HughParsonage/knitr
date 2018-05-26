@@ -78,6 +78,12 @@ if (requireNamespace("stringr", quietly = TRUE)) {
   assert("read chunks extracted without stringr",
          identical(stringr__str_extract_all(string = string, pattern = pattern, .use_stringr = FALSE),
                    stringr::str_extract_all(string = string, pattern = pattern)))
+
+  string  = '# Regression on {{i}}NN```{r lm-{{i}}}NNlm(mpg~{{i}}, data=mtcars)NN```'
+  pattern = '\\{\\{((.|NN)+?)\\}\\}'
+  assert("read chunks extracted without stringr",
+         identical(stringr__str_extract_all(string = string, pattern = pattern, .use_stringr = FALSE),
+                   stringr::str_extract_all(string = string, pattern = pattern)))
 }
 
 

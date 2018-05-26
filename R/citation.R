@@ -90,7 +90,7 @@ write_bib = function(
       if (!('year' %in% names(b))) b['year'] = .this.year
       idx = which(names(b) == '')
       if (!is.null(width)) {
-        b[-idx] = stringr__str_wrap(b[-idx], width, indent = 2, extdent = 4)
+        b[-idx] = stringr__str_wrap(b[-idx], width, indent = 2, exdent = 4)
       }
       structure(c(b[idx[1L]], b[-idx], b[idx[2L]]), class = 'Bibtex')
     })

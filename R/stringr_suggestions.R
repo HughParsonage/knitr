@@ -182,7 +182,10 @@ stringr__str_extract_all <- function(string, pattern, simplify = FALSE, .use_str
   if (.use_stringr && use_stringr()) {
     stringr::str_extract_all(string, pattern, simplify)
   } else {
-    G <- gregexpr(pattern = pattern, text = string)
+    G <- gregexpr(pattern = pattern,
+                  text = string,
+                  # Must be perl to enable possessive regex
+                  perl = TRUE)
     lapply(seq_along(string),
            function(i) {
              s <- string[i]
