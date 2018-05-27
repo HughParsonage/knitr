@@ -225,6 +225,42 @@ stringr__str_extract_all <- function(string, pattern, simplify = FALSE, .use_str
   }
 }
 
+stringr__str_trim <- function(x, side = c("both", "left", "right")) {
+  side <- match.arg(side)
+  str_trimws(x, side)
+
+}
+
+str_trimws <- function(x, side) {
+  # en quads
+  ans <- trimws(x)
+
+  while (side != "right" && any(has_left_ws(ans))) {
+    ans[has_left_ws(ans)] <-
+      stri_sub(ans[has_left_ws(ans)], 2)
+  }
+  while (side != "left" && any(has_right_ws(ans))) {
+    ans[has_right_ws(ans)] <-
+      stri_sub(ans[has_right_ws(ans)], to = -2)
+  }
+  ans
+}
+
+ws = intToUtf8(c(5760L,
+                 8192:8202,
+                 8232:8233,
+                 8239L,
+                 8287L,
+                 12288L))
+
+has_left_ws <- function(x) {
+  substr(x, 1, 1) %in% ws
+}
+
+has_right_ws <- function(x) {
+  stri_sub(x, -1, -1) %in% ws
+}
+
 
 
 

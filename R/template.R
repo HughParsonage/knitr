@@ -119,6 +119,19 @@ knit_expand = function(file, ..., text = readLines(file, warn = FALSE),
   txt = paste(text, collapse = '\n')
   loc = stringr::str_locate_all(txt, delim)[[1L]]
   if (nrow(loc) == 0L) return(txt) # no match
+  if (!identical(stringr::str_extract_all(txt, delim)[[1L]],
+                 stringr__str_extract_all(txt, delim)[[1L]])) {
+    stop("\n\n",
+         "txt <-", gsub(x = dput(txt), "\n", "NN"),
+         "\n",
+         "delim <-", gsub(x = dput(delim), "\n", "NN"),
+         "\n",
+         "stringr:\t", stringr::str_extract_all(txt, delim)[[1L]], "\n",
+         "string_:\t", stringr__str_extract_all(txt, delim)[[1L]], "\n",
+         ".............")
+  }
+
+
   mat = stringr::str_extract_all(txt, delim)[[1L]]
   mat = sub(delim, '\\1', mat)
   env = list(...)
