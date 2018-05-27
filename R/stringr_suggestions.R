@@ -168,15 +168,35 @@ stri_locate_all_regex_no_stri <- function(str, pattern) {
           out[j, 1L] <- gregexprs[[1L]][j]
         }
         out[, 2L] <- out[, 1L] + nchar_pattern - 1L
-        # Conformance with stringi
+
       } else {
         out <- matrix(NA_integer_, nrow = 1L, ncol = 2L)
       }
-      attributes(out) <- list("dimnames" = list(NULL, c("start", "end")))
+      # Conformance with stringi
+      attr(out, "dimnames") <- list(NULL, c("start", "end"))
       out
     })
   ans
 }
+
+stringr__str_locate_all <- function(string, pattern) {
+  if (use_stringr()) {
+    stringr::str_locate_all(string, pattern)
+  } else {
+    if (length(pattern) == 1L) {
+      stri_locate_all_regex_no_stri(string, pattern)
+    } else if (length(string) == length(pattern)) {
+      lapply(seq_along(string), function(i) {
+        stri_locate_all_regex_no_stri(string[i], pattern[i])
+      })
+    } else {
+      stop("Internal error: string and pattern had unexpected length.")
+    }
+
+
+  }
+}
+
 
 stringr__str_extract_all <- function(string, pattern, simplify = FALSE, .use_stringr = TRUE) {
   if (.use_stringr && use_stringr()) {
